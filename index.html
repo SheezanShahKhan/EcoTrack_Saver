@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoTrack — Waste Management Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M6 3.5 12 1l6 2.5v6c0 5.5-3.5 9.6-6 11-2.5-1.4-6-5.5-6-11v-6z" stroke="#2f6f4f" stroke-width="1.6" fill="none"/>
+        <path d="M9 12.2c1.8 1.8 4.2 1.8 6 0" stroke="#2f6f4f" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M12 8v7.5" stroke="#2f6f4f" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>EcoTrack</h1>
+        <p>Waste reporting &amp; collection, demoed end to end</p>
+      </div>
+    </div>
+    <button class="reset-link" id="resetBtn">Reset demo data</button>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="citizen" class="active">Citizen</button>
+    <button data-tab="collector">Collector</button>
+    <button data-tab="admin">Admin</button>
+  </nav>
+
+  <!-- ============ CITIZEN ============ -->
+  <section class="panel active" id="panel-citizen">
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <h2>Report a waste issue</h2>
+          <form id="reportForm">
+            <label for="wasteType">Waste type</label>
+            <select id="wasteType" required>
+              <option value="">Select a type</option>
+              <option>Household</option>
+              <option>Recyclable</option>
+              <option>Organic</option>
+              <option>E-waste</option>
+              <option>Hazardous</option>
+              <option>Other</option>
+            </select>
+
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="e.g. 14 Elm Street, near the bus stop" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="What's there, and how much of it?" required></textarea>
+
+            <label for="photoInput">Photo (optional)</label>
+            <input type="file" id="photoInput" accept="image/*">
+            <img id="photoPreview" class="thumb" style="display:none">
+
+            <button type="submit" class="btn">Submit report</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col">
+        <h2>My reports</h2>
+        <div id="myReports"></div>
+
+        <h2 style="margin-top:22px;">Notifications</h2>
+        <div class="card">
+          <ul class="notif-list" id="notifList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COLLECTOR ============ -->
+  <section class="panel" id="panel-collector">
+    <div class="as-select">
+      <label for="collectorSelect" style="display:inline;margin:0 8px 0 0;">Viewing as</label>
+      <select id="collectorSelect"></select>
+    </div>
+
+    <h2>Assigned pickups</h2>
+    <div id="collectorList"></div>
+
+    <h3 style="margin-top:22px;">Completed by you</h3>
+    <div id="collectorHistory"></div>
+  </section>
+
+  <!-- ============ ADMIN ============ -->
+  <section class="panel" id="panel-admin">
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="card">
+      <h2>Reports by waste type</h2>
+      <div id="wasteBreakdown"></div>
+    </div>
+
+    <div class="card">
+      <h2>All reports</h2>
+      <div class="filters">
+        <input type="search" id="searchInput" placeholder="Search by location or description">
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option>Pending</option>
+          <option>Assigned</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Waste type</th>
+              <th>Location</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Collector</th>
+              <th>Assign</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    EcoTrack demo — a citizen/collector/admin workflow running on your device. Nothing here is sent to a server; use Reset to start over.
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
