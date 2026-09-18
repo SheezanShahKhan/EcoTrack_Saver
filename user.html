@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTrack — Citizen Portal &amp; Waste Reporting</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- Top App Navigation -->
+  <header class="app-header">
+    <a href="index.html" class="brand-wrapper">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <h1>EcoTrack</h1>
+        <p>Citizen Waste &amp; Recycling Portal</p>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="user.html" class="nav-link active">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Citizen Portal
+      </a>
+      <a href="admin.html" class="nav-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Admin Dashboard
+      </a>
+      <a href="index.html#panel-collector" class="nav-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Collector View
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="status-pill" id="backendStatusPill" title="Connection status with backend">
+        <div class="pulse-dot demo" id="backendPulse"></div>
+        <span id="backendStatusText">Checking API...</span>
+      </div>
+      <button class="btn-ghost" id="resetDataBtn" title="Reset all test data back to clean sample state">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset Demo
+      </button>
+    </div>
+  </header>
+
+  <!-- Citizen Profile & Environmental Impact Hero Card -->
+  <section class="user-hero-card">
+    <div class="user-profile-meta">
+      <div class="avatar-badge" id="userAvatar">
+        SJ
+        <div class="tier-badge" title="Eco Guardian Level 4">★</div>
+      </div>
+      <div class="profile-titles">
+        <h2 id="userName">Sarah Jenkins</h2>
+        <p><span id="userEmail">sarah.j@example.com</span> &bull; 📍 <span id="userLocation">14 Elm Street, Downtown</span></p>
+      </div>
+    </div>
+
+    <div class="hero-stats-row">
+      <div class="hero-stat-pill">
+        <div class="val" id="statReportCount">5</div>
+        <div class="lbl">Reports Logged</div>
+      </div>
+      <div class="hero-stat-pill">
+        <div class="val" id="statActiveCount">2</div>
+        <div class="lbl">Active Tickets</div>
+      </div>
+      <div class="hero-stat-pill">
+        <div class="val" id="statDivertedKg">82.5 kg</div>
+        <div class="lbl">Diverted Waste</div>
+      </div>
+      <div class="hero-stat-pill">
+        <div class="val" id="statEcoKarma">340</div>
+        <div class="lbl">Eco Karma Pts</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- User Portal Section Navigation -->
+  <nav class="section-nav-tabs" id="userSubTabs">
+    <button class="section-tab-btn active" data-tab="tab-report">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      Report Waste Issue
+    </button>
+    <button class="section-tab-btn" data-tab="tab-pickup">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Schedule Pickup
+    </button>
+    <button class="section-tab-btn" data-tab="tab-history">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      My Submissions
+      <span class="badge-count" id="mySubmissionsBadge">0</span>
+    </button>
+    <button class="section-tab-btn" data-tab="tab-scheduled-pickups">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Pickup Bookings
+      <span class="badge-count" id="myPickupsBadge">0</span>
+    </button>
+    <button class="section-tab-btn" data-tab="tab-notifications">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+      <span class="badge-count" id="unreadNotifBadge">0</span>
+    </button>
+  </nav>
+
+  <!-- ================= TAB 1: REPORT WASTE ISSUE ================= -->
+  <section class="tab-panel active" id="tab-report">
+    <div class="eco-card">
+      <div class="card-header-line">
+        <div>
+          <h3>Log a Waste or Litter Incident</h3>
+          <p>Provide details and photos so municipal cleanup teams can be dispatched promptly.</p>
+        </div>
+      </div>
+
+      <form id="wasteReportForm">
+        <!-- Category Selector -->
+        <label class="form-label">Select Waste Category <span style="color:var(--accent-rose)">*</span></label>
+        <div class="category-picker-grid" id="categoryPicker">
+          <div class="category-option-btn selected" data-type="Household">
+            <span class="category-icon">🗑️</span>
+            Household
+          </div>
+          <div class="category-option-btn" data-type="Recyclable">
+            <span class="category-icon">♻️</span>
+            Recyclable
+          </div>
+          <div class="category-option-btn" data-type="Organic">
+            <span class="category-icon">🍏</span>
+            Organic
+          </div>
+          <div class="category-option-btn" data-type="E-waste">
+            <span class="category-icon">💻</span>
+            E-waste
+          </div>
+          <div class="category-option-btn" data-type="Hazardous">
+            <span class="category-icon">⚠️</span>
+            Hazardous
+          </div>
+          <div class="category-option-btn" data-type="Other">
+            <span class="category-icon">📦</span>
+            Other
+          </div>
+        </div>
+        <input type="hidden" id="selectedWasteType" value="Household">
+
+        <div class="form-grid">
+          <!-- Location with GPS -->
+          <div class="form-group full-width">
+            <label class="form-label" for="reportLocation">Incident Location <span style="color:var(--accent-rose)">*</span></label>
+            <div class="input-with-action">
+              <input type="text" class="eco-input" id="reportLocation" placeholder="e.g. 14 Elm Street, near the bus stop" required>
+              <button type="button" class="btn-inside-input" id="useGpsBtn">
+                📍 Auto-Detect GPS
+              </button>
+            </div>
+          </div>
+
+          <!-- Priority -->
+          <div class="form-group">
+            <label class="form-label" for="reportPriority">Urgency Level</label>
+            <select class="eco-select" id="reportPriority">
+              <option value="Normal">Normal — standard schedule</option>
+              <option value="High">High — blocking pathway / odor</option>
+              <option value="Urgent">Urgent — hazardous / safety concern</option>
+            </select>
+          </div>
+
+          <!-- Photo Upload Dropzone -->
+          <div class="form-group full-width">
+            <label class="form-label">Incident Photo (Evidence)</label>
+            <div class="upload-dropzone" id="reportDropzone">
+              <input type="file" id="reportPhotoInput" accept="image/*">
+              <div class="upload-prompt" id="dropzonePrompt">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                <p>Click or drag image here to upload</p>
+                <span>PNG, JPG, WebP up to 5MB</span>
+              </div>
+              <div class="preview-container" id="photoPreviewBox" style="display:none;">
+                <img id="previewImage" class="preview-img" alt="Preview">
+                <div class="preview-info">
+                  <div class="file-name" id="previewFileName">photo.jpg</div>
+                  <div class="file-size" id="previewFileSize">240 KB</div>
+                </div>
+                <button type="button" class="btn-secondary btn-sm" id="removePhotoBtn">Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group full-width">
+            <label class="form-label" for="reportDescription">Description &amp; Details <span style="color:var(--accent-rose)">*</span></label>
+            <textarea class="eco-textarea" id="reportDescription" rows="3" placeholder="Describe the volume, exact position, and any accessibility obstacles..." required></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:16px;">
+          <button type="reset" class="btn-secondary">Clear</button>
+          <button type="submit" class="btn-primary" id="submitReportBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Submit Incident Report
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= TAB 2: SCHEDULE PICKUP ================= -->
+  <section class="tab-panel" id="tab-pickup" style="display:none;">
+    <div class="eco-card">
+      <div class="card-header-line">
+        <div>
+          <h3>Schedule Bulky / Doorstep Collection</h3>
+          <p>Book a dedicated municipal truck to pick up oversized appliances, bulk recyclables, or electronic waste from your curb.</p>
+        </div>
+      </div>
+
+      <form id="schedulePickupForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="pickupWasteType">Item Classification <span style="color:var(--accent-rose)">*</span></label>
+            <select class="eco-select" id="pickupWasteType" required>
+              <option value="E-waste">E-waste (Appliances, Computers, TVs)</option>
+              <option value="Recyclable">Bulky Recyclables &amp; Cardboard</option>
+              <option value="Household">Furniture &amp; Mattresses</option>
+              <option value="Hazardous">Batteries &amp; Paint Chemical Tins</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pickupDate">Preferred Collection Date <span style="color:var(--accent-rose)">*</span></label>
+            <input type="date" class="eco-input" id="pickupDate" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label" for="pickupAddress">Pickup Address &amp; Access Notes <span style="color:var(--accent-rose)">*</span></label>
+            <input type="text" class="eco-input" id="pickupAddress" value="14 Elm Street, Apt 3B, Downtown" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label" for="pickupNotes">Item Details &amp; Quantity</label>
+            <textarea class="eco-textarea" id="pickupNotes" rows="3" placeholder="e.g. 1 upright refrigerator (unplugged) and 2 CRT monitors by garage gate..." required></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+          <button type="submit" class="btn-primary" id="submitPickupBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Confirm &amp; Book Collection
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= TAB 3: MY SUBMISSIONS & TRACKING ================= -->
+  <section class="tab-panel" id="tab-history" style="display:none;">
+    <div class="table-toolbar">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="eco-input" id="userReportSearch" placeholder="Search my reports by keyword or location...">
+      </div>
+
+      <div class="filter-group">
+        <select class="eco-select" id="userStatusFilter" style="width:160px;">
+          <option value="All">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Assigned">Assigned</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Feed Container -->
+    <div id="userReportsFeed">
+      <!-- Injected via user.js -->
+    </div>
+  </section>
+
+  <!-- ================= TAB 4: SCHEDULED PICKUPS ================= -->
+  <section class="tab-panel" id="tab-scheduled-pickups" style="display:none;">
+    <div class="eco-card">
+      <div class="card-header-line">
+        <div>
+          <h3>Doorstep Pickup Bookings</h3>
+          <p>Track your scheduled curbside collection appointments.</p>
+        </div>
+      </div>
+      <div id="userPickupsFeed">
+        <!-- Injected via user.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 5: NOTIFICATIONS ================= -->
+  <section class="tab-panel" id="tab-notifications" style="display:none;">
+    <div class="eco-card">
+      <div class="card-header-line">
+        <div>
+          <h3>Activity &amp; Resolution Alerts</h3>
+          <p>Real-time timeline of collector dispatches and completed verifications.</p>
+        </div>
+        <button class="btn-secondary btn-sm" id="markAllReadBtn">Mark All Read</button>
+      </div>
+      <ul class="notif-list" id="userNotificationList">
+        <!-- Injected via user.js -->
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- Photo Lightbox Modal -->
+<div class="modal-overlay" id="photoModal">
+  <div class="modal-card" style="max-width:520px;">
+    <div class="modal-header">
+      <h3 id="modalPhotoTitle">Evidence Photo</h3>
+      <button class="modal-close-btn" id="closePhotoModalBtn">&times;</button>
+    </div>
+    <div class="modal-body" style="padding:0; text-align:center; background:#000;">
+      <img id="modalPhotoImage" src="" alt="Evidence" style="max-width:100%; max-height:480px; object-fit:contain; display:block; margin:0 auto;">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="closePhotoModalFooterBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Alert Shelf -->
+<div class="toast-shelf" id="toastShelf"></div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+
+</body>
+</html>
